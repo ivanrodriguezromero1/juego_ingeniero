@@ -55,3 +55,4 @@ app.*.map.json
 /pubspec.lock
 /pubspec.yaml
 /README.md
+/test/
