@@ -111,7 +111,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     super.update(dt);
     BackdropController.infinityBackdrop(_backdrops);
     FloorController.infinityFloor(_floors);
-    TowerController.infinityTower(_tower);
+    TowerController.infinityTower(_tower, _counter);
     TowerController.move(_tower);
     EngineerController.standUp(_engineer);
     if(EngineerController.isResettable(_engineer)){

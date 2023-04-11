@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:juego_ingeniero/controllers/screen_controller.dart';
+import 'package:juego_ingeniero/models/counter.dart';
 
 import '../models/tower.dart';
 
@@ -15,10 +16,11 @@ class TowerController {
   static void move(Tower tower){
     tower.body.linearVelocity = linearVelocity;
   }
-  static void infinityTower(Tower tower){
+  static void infinityTower(Tower tower, Counter counter){
     if(tower.body.position.x <= -1*(width)){
       double newX = ScreenController.worldSize.x + width/2 + Random().nextDouble()*10;
       tower.body.setTransform(Vector2(newX, y),0);
+      counter.count.text = (int.parse(counter.count.text)+1).toString();
     }
   }
 }
