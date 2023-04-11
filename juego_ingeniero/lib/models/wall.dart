@@ -27,4 +27,9 @@ class Wall extends BodyComponent {
       ..restitution=.01;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    renderBody = false;
+  }
 }

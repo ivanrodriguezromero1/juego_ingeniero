@@ -26,16 +26,15 @@ Game controlledGameBuilder() {
   return MyGameEngineer();
 }
 class GameEngineerState extends State<GameEngineer> {
-  Widget buildGameWidget() => const GameWidget.controlled(gameFactory: controlledGameBuilder);
+  Widget buildGameWidget(BuildContext context) => const GameWidget.controlled(gameFactory: controlledGameBuilder);
   @override
   Widget build(BuildContext context) {
-    return buildGameWidget();
+    return buildGameWidget(context);
   }
 }
 
 class MyGameEngineer extends Forge2DGame with TapDetector {
   MyGameEngineer(): super(zoom: 100, gravity: Vector2(0, 15));
-
   late List<Backdrop> _backdrops;
   late List<Floor> _floors;
   late Tower _tower;
@@ -44,8 +43,10 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   late Counter _counter;
   
   void configCamera(){
-    ScreenController.setScreenSize(canvasSize);
-    camera.viewport= FixedResolutionViewport(ScreenController.screenSize);
+    double width = 836;
+    double height = 393;
+    ScreenController.setScreenSize(Vector2(width, height));
+    camera.viewport = FixedResolutionViewport(ScreenController.screenSize);
   }
   void addBackground(){
     Background.setWidthHeight(canvasSize);
