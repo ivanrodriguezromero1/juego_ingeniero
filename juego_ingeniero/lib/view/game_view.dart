@@ -3,14 +3,19 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:juego_ingeniero/controllers/asset_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:juego_ingeniero/controllers/engineer_controller.dart';
+import 'package:juego_ingeniero/models/backdrop.dart';
 import 'package:juego_ingeniero/models/background.dart';
 import 'package:juego_ingeniero/models/engineer.dart';
 import 'package:juego_ingeniero/models/floor.dart';
-import 'package:juego_ingeniero/utils/globals.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-
+import '../controllers/backdrop_controller.dart';
 import '../controllers/floor_controller.dart';
 import '../controllers/screen_controller.dart';
+import '../controllers/tower_controller.dart';
+import '../models/counter.dart';
+import '../models/tower.dart';
+import '../models/wall.dart';
 
 class GameEngineer extends StatefulWidget {
   const GameEngineer({Key? key}) : super(key: key);
@@ -27,130 +32,92 @@ class GameEngineerState extends State<GameEngineer> {
     return buildGameWidget();
   }
 }
+
 class MyGameEngineer extends Forge2DGame with TapDetector {
   MyGameEngineer(): super(zoom: 100, gravity: Vector2(0, 15));
-  late double _tiempo;
-  late int _indiceSpriteActual;
-  late double widthIngeniero;
-  late double heightIngeniero;
-  late Vector2 _positionIngeniero;
-  late Vector2 _sizeIngeniero;
-  late Vector2 _velocityIngeniero;
-  late Vector2 _positionPiso1;
-  late Vector2 _positionPiso2;
-  late Vector2 _positionFondo1;
-  late Vector2 _positionFondo2;
-  late Vector2 _velocityPiso;
-  late Vector2 _velocityFondo;
-  late final Vector2 _gravity;
-  late bool _canJump;
-  late final double _jumpVelocity;
-  late double widthFondo;
-  late double heightFondo;
-  late Vector2 _sizeFondo;
+
+  late List<Backdrop> _backdrops;
+  late List<Floor> _floors;
+  late Tower _tower;
+  late Wall _wall;
   late Engineer _engineer;
-  late List<Floor> floor;
+  late Counter _counter;
   
-  void addCamera(){
+  void configCamera(){
     ScreenController.setScreenSize(canvasSize);
     camera.viewport= FixedResolutionViewport(ScreenController.screenSize);
   }
   void addBackground(){
     Background.setWidthHeight(canvasSize);
-    add(Background(size: ScreenController.screenSize)..positionType=PositionType.viewport);
+    add(Background(size: ScreenController.screenSize)
+      ..positionType=PositionType.viewport);
+  }
+  void addBackdrops(){
+    _backdrops = [Backdrop(number: 1), Backdrop(number: 2)]; 
+    addAll(_backdrops);
+  }
+  void addFloor(){
+    _floors = [Floor(number: 1), Floor(number: 2)]; 
+    addAll(_floors);
+  }
+  void addExample(){
+    _tower = Tower();
+    add(_tower);
+  }
+  void addWall(){
+    _wall = Wall();
+    add(_wall);
+  }
+  void addEngineer(){
+    _engineer = Engineer();
+    add(_engineer);
+  }
+  void addCounter(){
+    _counter = Counter();
+    add(_counter);
+  }
+  void addComponents(){
+    addBackdrops();
+    addFloor();
+    addExample();
+    addWall();
+    addEngineer();
+    addCounter();
+  }
+  void destroyBodies(){
+    _backdrops[0].destroy();
+    _backdrops[1].destroy();
+    _floors[0].destroy();
+    _floors[1].destroy();
+    _tower.destroy();
+    _engineer.destroy();    
+    _counter.destroy();
   }
   @override
   Future<void> onLoad() async {
-    addCamera();
+    configCamera();
     addBackground();
-    await loadAssets();
-    floor = [Floor(number: 1),Floor(number: 2)]; 
-    addAll(floor);
-    _engineer = Engineer();
-    add(_engineer);
-
-    _tiempo = 0;
-    _indiceSpriteActual = 0;
-    widthIngeniero = ingenieros[0].image.width/6;
-    heightIngeniero = ingenieros[0].image.height/6;
-    _sizeIngeniero = Vector2(widthIngeniero, heightIngeniero);
-    _positionIngeniero = Vector2(20, 100);
-    _velocityIngeniero = Vector2(0, 0);
-    _positionPiso1 = Vector2(0, 205 + heightIngeniero);
-    // _positionPiso2 = Vector2(_sizeFloor.x, 205 + heightIngeniero);
-    _positionFondo1 = Vector2(0, 0);
-    widthFondo = fondo.image.width.toDouble()/3;
-    heightFondo = fondo.image.height.toDouble()/2;
-    _sizeFondo = Vector2(widthFondo, heightFondo);
-    _positionFondo2 = Vector2(widthFondo, 0);
-    _velocityPiso = Vector2(200, 0);
-    _velocityFondo = Vector2(100, 0);
-    _gravity = Vector2(0, 1500);
-    _canJump = true;
-    _jumpVelocity = -700.0;
-
+    await AssetController.loadAssets();
+    addComponents();
   }
-
   @override
   void onTapDown(TapDownInfo info) {
     super.onTapDown(info);
-    if (_canJump) {
-      _velocityIngeniero.y = _jumpVelocity;
-      _canJump = false;
-    }
+    EngineerController.jump(_engineer);
+
   }
-  
   @override
   void update(double dt) {
     super.update(dt);
-     _tiempo += dt;
-    if (_tiempo > 0.1) { // Cambiar el sprite cada 0.1 segundos
-      _indiceSpriteActual = (_indiceSpriteActual + 1) % ingenieros.length;
-      _tiempo = 0;
+    BackdropController.infinityBackdrop(_backdrops);
+    FloorController.infinityFloor(_floors);
+    TowerController.infinityTower(_tower);
+    TowerController.move(_tower);
+    EngineerController.standUp(_engineer);
+    if(EngineerController.isResettable(_engineer)){
+      destroyBodies();
+      addComponents();
     }
-    _velocityIngeniero += _gravity * dt;
-    _positionIngeniero += _velocityIngeniero * dt;
-    
-    // Actualizar _canJump si el jugador está tocando el suelo
-    if (_positionIngeniero.y >= 215) {
-      _velocityIngeniero.y = 0;
-      _positionIngeniero.y = 215;
-      _canJump = true;
-    } else {
-      _canJump = false;
-    }
-
-    _positionPiso1.x -= _velocityPiso.x * dt;
-    // _positionPiso2.x -= _velocityPiso.x * dt;
-    _positionFondo1.x -= _velocityFondo.x * dt;
-    _positionFondo2.x -= _velocityFondo.x * dt;
-    if(_positionFondo1.x <= -1*widthFondo){
-      _positionFondo1.x = _positionFondo2.x + widthFondo;
-    }
-    if(_positionFondo2.x <= -1*widthFondo){
-      _positionFondo2.x = _positionFondo1.x + widthFondo;
-    }
-    if(floor[0].body.position.x<=-1*2 * ScreenController.worldSize.x){
-      floor[0].body.setTransform(Vector2(2 * ScreenController.worldSize.x,2*ScreenController.worldSize.y/3), 0);
-    }
-    // if(floor[1].body.position.x<=-1*2 * ScreenController.worldSize.x){
-    //   floor[1].body.setTransform(Vector2(2 * ScreenController.worldSize.x,2*ScreenController.worldSize.y/3), 0);
-    // }
-    // if(_positionPiso1.x <= -1*_sizeFloor.x){
-    //   _positionPiso1.x = _positionPiso2.x + _sizeFloor.x;
-    // }
-    // if(_positionPiso2.x <= -1*_sizeFloor.x){
-    //   _positionPiso2.x = _positionPiso1.x + _sizeFloor.x;
-    // }
   }
-
-  // @override
-  // void render(Canvas canvas) {
-  //   super.render(canvas);
-  //   // fondo.render(canvas, position: _positionFondo1, size: _sizeFondo);
-  //   // fondo.render(canvas, position: _positionFondo2, size: _sizeFondo);
-  //   // piso.render(canvas, position: _positionPiso1, size: _sizePiso);
-  //   // piso.render(canvas, position: _positionPiso2, size: _sizePiso);
-  //   // ingenieros[_indiceSpriteActual].render(canvas, position: _positionIngeniero, size: _sizeIngeniero);
-  // }
+  
 }

@@ -1,10 +1,11 @@
+
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:juego_ingeniero/controllers/floor_controller.dart';
-import 'package:juego_ingeniero/utils/globals.dart';
+import '../controllers/backdrop_controller.dart';
+import '../utils/globals.dart';
 
-class Floor extends BodyComponent {
-  Floor({required number}):_number = number;
+class Backdrop extends BodyComponent {
+  Backdrop({required number}):_number = number;
   late final int _number;
   late double _x;
   late double _y;
@@ -13,32 +14,34 @@ class Floor extends BodyComponent {
   late bool _state;
 
   void initializing(){
-    _width = FloorController.width;
+    _width = BackdropController.width;
     _x = (_number - 1)*_width;
-    _y = FloorController.y;
+    _y = BackdropController.y;
     _state = true;
   }
   @override
   Body createBody() {
     initializing();
     final bodyDef = BodyDef(
+      userData: this,
       position: Vector2(_x, _y),
       type: BodyType.kinematic,
-      linearVelocity: FloorController.linearVelocity,
+      linearVelocity: BackdropController.linearVelocity,
     );
 
     final shape = EdgeShape()..set(Vector2.zero(), Vector2(_width, 0));
     final fixtureDef = FixtureDef(shape)
-      ..density=100
-      ..restitution=.01;
+      ..density=10
+      ..friction=.6
+      ..restitution=.4;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
-    final sprite = floor;
-    _height = FloorController.height;
+    final sprite = backdrop;
+    _height = BackdropController.height;
     add(SpriteComponent(
       sprite: sprite,
       size: Vector2(_width, _height),

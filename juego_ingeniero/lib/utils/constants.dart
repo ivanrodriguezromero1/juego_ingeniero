@@ -1,4 +1,4 @@
-List<String> ingenieroFilenames = [
+const List<String> ingenieroFilenames = [
   'ingeniero1.png',
   'ingeniero2.png',
   'ingeniero3.png',
@@ -10,5 +10,7 @@ List<String> ingenieroFilenames = [
   'ingeniero9.png',
   'ingeniero10.png',
 ];
-String floorFilename = 'floor.png';
-String fondoFilename = 'fondo.png';
+const String floorFilename = 'floor.png';
+const String backdropFilename = 'backdrop.png';
+const String rockFilename = 'rock.png';
+const String towerFilename = 'molino.png';
