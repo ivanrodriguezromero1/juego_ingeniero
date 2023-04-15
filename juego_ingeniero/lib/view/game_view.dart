@@ -1,11 +1,16 @@
+import 'dart:math';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:juego_ingeniero/controllers/asset_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:juego_ingeniero/controllers/blade_controller.dart';
 import 'package:juego_ingeniero/controllers/engineer_controller.dart';
 import 'package:juego_ingeniero/models/backdrop.dart';
 import 'package:juego_ingeniero/models/background.dart';
+import 'package:juego_ingeniero/models/blade.dart';
 import 'package:juego_ingeniero/models/engineer.dart';
 import 'package:juego_ingeniero/models/floor.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -16,6 +21,8 @@ import '../controllers/tower_controller.dart';
 import '../models/counter.dart';
 import '../models/tower.dart';
 import '../models/wall.dart';
+import '../utils/constants.dart';
+import '../utils/globals.dart';
 
 class GameEngineer extends StatefulWidget {
   const GameEngineer({Key? key}) : super(key: key);
@@ -38,6 +45,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   late List<Backdrop> _backdrops;
   late List<Floor> _floors;
   late Tower _tower;
+  late Blade _blade;
   late Wall _wall;
   late Engineer _engineer;
   late Counter _counter;
@@ -61,9 +69,12 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     _floors = [Floor(number: 1), Floor(number: 2)]; 
     addAll(_floors);
   }
-  void addExample(){
-    _tower = Tower();
+  void addWindTurbine(){
+    double height  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
+    _tower = Tower(height: height);
+    _blade = Blade(height: height/2);    
     add(_tower);
+    add(_blade);
   }
   void addWall(){
     _wall = Wall();
@@ -80,7 +91,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   void addComponents(){
     addBackdrops();
     addFloor();
-    addExample();
+    addWindTurbine();
     addWall();
     addEngineer();
     addCounter();
@@ -91,6 +102,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     _floors[0].destroy();
     _floors[1].destroy();
     _tower.destroy();
+    _blade.destroy();
     _engineer.destroy();    
     _counter.destroy();
   }
@@ -111,14 +123,22 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   void update(double dt) {
     super.update(dt);
     BackdropController.infinityBackdrop(_backdrops);
-    FloorController.infinityFloor(_floors);
-    TowerController.infinityTower(_tower, _counter);
-    TowerController.move(_tower);
+    FloorController.infinityFloor(_floors);    
+    TowerController.move(_tower);    
+    BladeController.move(_blade);
     EngineerController.standUp(_engineer);
-    if(EngineerController.isResettable(_engineer)){
-      destroyBodies();
-      addComponents();
+    if(TowerController.isPassingTower(_tower, _counter, player)){
+      addWindTurbine();
     }
+    if(EngineerController.isResettable(_engineer)){
+      reset();
+    }
+  }
+  void reset(){
+    player.play(AssetSource(loseSoundFilename));   
+    destroyBodies();
+    linearVelocityWorld = initialLinearVelocityWorld;    
+    addComponents();
   }
   
 }

@@ -26,14 +26,13 @@ class Backdrop extends BodyComponent {
       userData: this,
       position: Vector2(_x, _y),
       type: BodyType.kinematic,
-      linearVelocity: BackdropController.linearVelocity,
     );
 
     final shape = EdgeShape()..set(Vector2.zero(), Vector2(_width, 0));
     final fixtureDef = FixtureDef(shape)
-      ..density=10
-      ..friction=.6
-      ..restitution=.4;
+      ..density = 10
+      ..friction = .6
+      ..restitution = .4;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
   @override

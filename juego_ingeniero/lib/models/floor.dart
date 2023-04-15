@@ -24,13 +24,13 @@ class Floor extends BodyComponent {
     final bodyDef = BodyDef(
       position: Vector2(_x, _y),
       type: BodyType.kinematic,
-      linearVelocity: FloorController.linearVelocity,
     );
 
     final shape = EdgeShape()..set(Vector2.zero(), Vector2(_width, 0));
     final fixtureDef = FixtureDef(shape)
-      ..density=100
-      ..restitution=.01;
+      ..density = 100
+      ..friction = 0.5
+      ..restitution = 0;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
   @override

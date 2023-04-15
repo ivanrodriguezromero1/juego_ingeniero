@@ -1,3 +1,5 @@
+import 'package:flame/components.dart';
+
 const List<String> ingenieroFilenames = [
   'ingeniero1.png',
   'ingeniero2.png',
@@ -13,4 +15,10 @@ const List<String> ingenieroFilenames = [
 const String floorFilename = 'floor.png';
 const String backdropFilename = 'backdrop.png';
 const String rockFilename = 'rock.png';
-const String towerFilename = 'molino.png';
+const String towerFilename = 'tower.png';
+const String bladeFilename = 'blade.png';
+
+const String pointSoundFilename = 'audio/point.mp3';
+const String loseSoundFilename = 'audio/lose.mp3';
+
+Vector2 initialLinearVelocityWorld = Vector2(-4, 0);

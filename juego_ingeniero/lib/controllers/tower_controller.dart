@@ -1,26 +1,25 @@
-import 'dart:math';
-
 import 'package:flame/components.dart';
 import 'package:juego_ingeniero/controllers/screen_controller.dart';
 import 'package:juego_ingeniero/models/counter.dart';
-
+import 'package:audioplayers/audioplayers.dart';
+import 'package:juego_ingeniero/utils/constants.dart';
 import '../models/tower.dart';
+import '../utils/globals.dart';
 
 class TowerController {
   static double width = ScreenController.worldSize.x/20;
-  static double height = ScreenController.worldSize.y/2;
-  static double x = 3*ScreenController.worldSize.x/4;
-  static double y = (2*ScreenController.worldSize.y/3) - height/2;
-  static Vector2 linearVelocity = Vector2(-3, 0);
-  static double angularVelocity = radians(-170);
+  static double x = ScreenController.worldSize.x + width/2;
   static void move(Tower tower){
-    tower.body.linearVelocity = linearVelocity;
+    tower.body.linearVelocity = linearVelocityWorld;
   }
-  static void infinityTower(Tower tower, Counter counter){
+  static bool isPassingTower(Tower tower, Counter counter, AudioPlayer player){
     if(tower.body.position.x <= -1*(width)){
-      double newX = ScreenController.worldSize.x + width/2 + Random().nextDouble()*10;
-      tower.body.setTransform(Vector2(newX, y),0);
+      tower.destroy();
       counter.count.text = (int.parse(counter.count.text)+1).toString();
+      linearVelocityWorld += Vector2(-0.2,0);
+      player.play(AssetSource(pointSoundFilename));     
+      return true;
     }
+    return false;
   }
 }

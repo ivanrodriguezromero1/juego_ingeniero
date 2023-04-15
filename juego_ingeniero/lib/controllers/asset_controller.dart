@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components.dart';
 import 'package:juego_ingeniero/utils/constants.dart';
 import 'package:juego_ingeniero/utils/globals.dart';
@@ -13,6 +14,8 @@ class AssetController{
       backdrop = await Sprite.load(backdropFilename);
       rock = await Sprite.load(rockFilename);
       tower = await Sprite.load(towerFilename);
+      blade = await Sprite.load(bladeFilename);
+
       assetsLoaded = true;
     }
 }

@@ -30,14 +30,15 @@ class Engineer extends BodyComponent {
     final shape = PolygonShape()..setAsBoxXY(_side,_side);
     final fixtureDef = FixtureDef(shape)
       ..density = 10
-      ..restitution = .1;
+      ..restitution = 0;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
-    final walkAnimation = SpriteAnimation.spriteList(ingenieros, stepTime: .08,loop: true);
+    priority = 10;
+    final walkAnimation = SpriteAnimation.spriteList(ingenieros, stepTime: .08, loop: true);
     add(SpriteAnimationComponent(
       animation: walkAnimation,
       size: Vector2(2*_width, 2*_height),
