@@ -88,14 +88,6 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     _counter = Counter();
     add(_counter);
   }
-  void addComponents(){
-    addBackdrops();
-    addFloor();
-    addWindTurbine();
-    addWall();
-    addEngineer();
-    addCounter();
-  }
   void destroyBodies(){
     _backdrops[0].destroy();
     _backdrops[1].destroy();
@@ -105,6 +97,24 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     _blade.destroy();
     _engineer.destroy();    
     _counter.destroy();
+  }
+  void resetVelocity(){
+    worldLinearVelocity = initialWorldLinearVelocity;
+    bladeAngularVelocity = initialBladeAngularVelocity;
+  }
+  void addComponents(){
+    addBackdrops();
+    addFloor();
+    addWindTurbine();
+    addWall();
+    addEngineer();
+    addCounter();
+  }
+  void resetWorld(){
+    player.play(AssetSource(loseSoundFilename));   
+    destroyBodies();
+    resetVelocity();    
+    addComponents();
   }
   @override
   Future<void> onLoad() async {
@@ -117,28 +127,21 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   void onTapDown(TapDownInfo info) {
     super.onTapDown(info);
     EngineerController.jump(_engineer);
-
   }
   @override
   void update(double dt) {
     super.update(dt);
     BackdropController.infinityBackdrop(_backdrops);
-    FloorController.infinityFloor(_floors);    
-    TowerController.move(_tower);    
+    FloorController.infinityFloor(_floors);
+    TowerController.move(_tower);
     BladeController.move(_blade);
     EngineerController.standUp(_engineer);
     if(TowerController.isPassingTower(_tower, _counter, player)){
       addWindTurbine();
     }
     if(EngineerController.isResettable(_engineer)){
-      reset();
+      resetWorld();
     }
-  }
-  void reset(){
-    player.play(AssetSource(loseSoundFilename));   
-    destroyBodies();
-    linearVelocityWorld = initialLinearVelocityWorld;    
-    addComponents();
   }
   
 }

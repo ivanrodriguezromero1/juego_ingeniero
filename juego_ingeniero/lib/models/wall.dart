@@ -5,13 +5,11 @@ class Wall extends BodyComponent {
   late double _x;
   late double _y;
   late double _height;
-  late double angularVelocity;
   
   void initializing(){
     _height = WallController.height;
     _x = WallController.x;
     _y = WallController.y;
-    angularVelocity  = WallController.angularVelocity;
   }
   @override
   Body createBody() {

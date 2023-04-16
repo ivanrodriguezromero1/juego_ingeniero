@@ -16,8 +16,8 @@ class BackdropController {
     static void infinityBackdrop(List<Backdrop> backdrops){
       // print(1024*ScreenController.worldSize.y/(3*ScreenController.worldSize.x));
       //1024x168
-      backdrops[0].body.linearVelocity = linearVelocityWorld;
-      backdrops[1].body.linearVelocity = linearVelocityWorld;
+      backdrops[0].body.linearVelocity = worldLinearVelocity;
+      backdrops[1].body.linearVelocity = worldLinearVelocity;
       turnAround(backdrops[0], backdrops[1]);
       turnAround(backdrops[1], backdrops[0]);
     }

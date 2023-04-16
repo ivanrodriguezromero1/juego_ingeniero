@@ -11,7 +11,6 @@ class Blade extends BodyComponent {
   late double _y;
   late double _width;
   final double _height;
-  late double angularVelocity;
   late bool _state;
 
   void initializing(){

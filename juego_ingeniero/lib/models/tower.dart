@@ -7,10 +7,10 @@ import '../utils/globals.dart';
 
 class Tower extends BodyComponent {
   Tower({required height}): _height = height;
+  final double _height;
   late double _x;
   late double _y;
   late double _width;
-  final double _height;
   late bool _state;
 
   void initializing(){

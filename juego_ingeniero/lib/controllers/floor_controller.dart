@@ -13,8 +13,8 @@ class FloorController {
       }
     }
     static void infinityFloor(List<Floor> floors){
-      floors[0].body.linearVelocity = linearVelocityWorld;
-      floors[1].body.linearVelocity = linearVelocityWorld;
+      floors[0].body.linearVelocity = worldLinearVelocity;
+      floors[1].body.linearVelocity = worldLinearVelocity;
       turnAround(floors[0], floors[1]);
       turnAround(floors[1], floors[0]);
     }

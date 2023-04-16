@@ -13,4 +13,5 @@ AudioPlayer player = AudioPlayer();
 
 bool assetsLoaded = false;
 
-Vector2 linearVelocityWorld = initialLinearVelocityWorld;
+Vector2 worldLinearVelocity = initialWorldLinearVelocity;
+double bladeAngularVelocity = initialBladeAngularVelocity;

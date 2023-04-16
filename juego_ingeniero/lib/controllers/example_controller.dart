@@ -11,7 +11,7 @@ class ExampleController {
   static double height = ScreenController.worldSize.y/28;
   static double x = 2*ScreenController.worldSize.x/3;
   static double y = 2*ScreenController.worldSize.y/3;
-  static Vector2 linearVelocity = linearVelocityWorld;
+  static Vector2 linearVelocity = worldLinearVelocity;
   static double angularVelocity = radians(-170);
   static void spin(Example example){
     example.body.linearVelocity = linearVelocity;
