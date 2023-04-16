@@ -43,6 +43,6 @@ class TowerController {
     }
   }
   static double _getBladeAngularVelocity(){
-    return radians(330 + Random().nextInt(61).toDouble());
+    return radians(340 + Random().nextInt(41).toDouble());
   }
 }
