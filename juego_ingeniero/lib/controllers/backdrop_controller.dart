@@ -10,7 +10,7 @@ class BackdropController {
     static double y = 0;
     static void turnAround(Backdrop backdrop1, Backdrop backdrop2){
       if(backdrop1.body.position.x <= -1 * width){
-        backdrop1.body.setTransform(Vector2(backdrop2.body.position.x + width, y), 0);
+        backdrop1.body.setTransform(Vector2(backdrop2.body.position.x + width - 0.01, y), 0);
       }
     }
     static void infinityBackdrop(List<Backdrop> backdrops){

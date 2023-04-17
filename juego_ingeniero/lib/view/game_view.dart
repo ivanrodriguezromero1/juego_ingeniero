@@ -62,11 +62,11 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
       ..positionType=PositionType.viewport);
   }
   void addBackdrops(){
-    _backdrops = [Backdrop(number: 1), Backdrop(number: 2)]; 
+    _backdrops = [Backdrop(x: 0), Backdrop(x: BackdropController.width - 0.01)]; 
     addAll(_backdrops);
   }
   void addFloor(){
-    _floors = [Floor(number: 1), Floor(number: 2)]; 
+    _floors = [Floor(x: 0), Floor(x: FloorController.width - 0.01)]; 
     addAll(_floors);
   }
   void addWindTurbine(){

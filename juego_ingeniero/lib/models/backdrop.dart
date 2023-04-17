@@ -5,9 +5,8 @@ import '../controllers/backdrop_controller.dart';
 import '../utils/globals.dart';
 
 class Backdrop extends BodyComponent {
-  Backdrop({required number}):_number = number;
-  late final int _number;
-  late double _x;
+  Backdrop({required x}):_x = x;
+  late final double _x;
   late double _y;
   late double _width;
   late double _height;
@@ -15,7 +14,6 @@ class Backdrop extends BodyComponent {
 
   void initializing(){
     _width = BackdropController.width;
-    _x = (_number - 1)*_width;
     _y = BackdropController.y;
     _state = true;
   }

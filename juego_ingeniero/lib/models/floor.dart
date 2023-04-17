@@ -4,9 +4,8 @@ import 'package:juego_ingeniero/controllers/floor_controller.dart';
 import 'package:juego_ingeniero/utils/globals.dart';
 
 class Floor extends BodyComponent {
-  Floor({required number}):_number = number;
-  late final int _number;
-  late double _x;
+  Floor({required x}):_x = x;
+  late final double _x;
   late double _y;
   late double _width;
   late double _height;
@@ -14,7 +13,6 @@ class Floor extends BodyComponent {
 
   void initializing(){
     _width = FloorController.width;
-    _x = (_number - 1)*_width;
     _y = FloorController.y;
     _state = true;
   }

@@ -32,7 +32,7 @@ class TowerController {
     return Vector2(0.2*signWorldLinearVelocity,0);
   }
   static int _getSignWorldLinearVelocity(){
-    if(worldLinearVelocity.x == initialWorldLinearVelocity.x){
+    if(worldLinearVelocity.x >= initialWorldLinearVelocity.x - 1){
       _increase = true;
       return -1;
     } else if(worldLinearVelocity.x > initialWorldLinearVelocity.x - 2 && _increase){

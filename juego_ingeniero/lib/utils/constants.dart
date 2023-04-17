@@ -21,5 +21,5 @@ const String bladeFilename = 'blade.png';
 const String pointSoundFilename = 'audio/point.mp3';
 const String loseSoundFilename = 'audio/lose.mp3';
 
-Vector2 initialWorldLinearVelocity = Vector2(-4.2, 0);
+Vector2 initialWorldLinearVelocity = Vector2(-4, 0);
 double initialBladeAngularVelocity = radians(360);
