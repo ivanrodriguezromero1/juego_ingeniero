@@ -1,10 +1,15 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components.dart';
 import 'package:juego_ingeniero/utils/constants.dart';
 import 'package:juego_ingeniero/utils/globals.dart';
 
-class AssetController{
-  static Future<void> loadAssets() async {
+class AssetController {
+  static AssetController? _instance;
+  AssetController._();
+  static AssetController get instance {
+    _instance ??= AssetController._();
+    return _instance!;
+  }
+  Future<void> loadAssets() async {
     if (!assetsLoaded) {    
       ingenieros = [];
       for(String filename in ingenieroFilenames) {

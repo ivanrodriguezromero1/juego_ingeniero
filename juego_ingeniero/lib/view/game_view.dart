@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:juego_ingeniero/controllers/asset_controller.dart';
@@ -9,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:juego_ingeniero/controllers/blade_controller.dart';
 import 'package:juego_ingeniero/controllers/engineer_controller.dart';
 import 'package:juego_ingeniero/models/backdrop.dart';
-import 'package:juego_ingeniero/models/background.dart';
 import 'package:juego_ingeniero/models/blade.dart';
 import 'package:juego_ingeniero/models/engineer.dart';
 import 'package:juego_ingeniero/models/floor.dart';
@@ -23,6 +20,7 @@ import '../models/tower.dart';
 import '../models/wall.dart';
 import '../utils/constants.dart';
 import '../utils/globals.dart';
+
 
 class GameEngineer extends StatefulWidget {
   const GameEngineer({Key? key}) : super(key: key);
@@ -49,17 +47,12 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   late Wall _wall;
   late Engineer _engineer;
   late Counter _counter;
-  
+
   void configCamera(){
     double width = 836;
     double height = 393;
     ScreenController.setScreenSize(Vector2(width, height));
     camera.viewport = FixedResolutionViewport(ScreenController.screenSize);
-  }
-  void addBackground(){
-    Background.setWidthHeight(canvasSize);
-    add(Background(size: ScreenController.screenSize)
-      ..positionType=PositionType.viewport);
   }
   void addBackdrops(){
     _backdrops = [Backdrop(x: 0), Backdrop(x: BackdropController.width - 0.01)]; 
@@ -88,6 +81,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     _counter = Counter();
     add(_counter);
   }
+
   void destroyBodies(){
     _backdrops[0].destroy();
     _backdrops[1].destroy();
@@ -119,8 +113,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   @override
   Future<void> onLoad() async {
     configCamera();
-    addBackground();
-    await AssetController.loadAssets();
+    await AssetController.instance.loadAssets();
     addComponents();
   }
   @override
