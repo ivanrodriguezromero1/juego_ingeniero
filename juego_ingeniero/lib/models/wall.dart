@@ -1,11 +1,13 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 import '../controllers/wall_controller.dart';
 
-class Wall extends BodyComponent {
+class Wall extends Entity {
   late double _x;
   late double _y;
   late double _height;
   
+  @override
   void initializing(){
     _height = WallController.height;
     _x = WallController.x;

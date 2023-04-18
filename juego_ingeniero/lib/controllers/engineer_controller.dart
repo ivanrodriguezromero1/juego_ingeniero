@@ -1,6 +1,7 @@
 
 import 'package:flame/components.dart';
 import 'package:juego_ingeniero/controllers/screen_controller.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 
 import '../models/engineer.dart';
 import '../utils/globals.dart';
@@ -14,34 +15,34 @@ class EngineerController {
   static final double y = ScreenController.worldSize.y/5;
   static double xReset = -1*(width/2);
 
-  static bool canJump(Engineer engineer){
+  static bool _canJump(Entity engineer){
     double positionY = engineer.body.position.y;
     double positionYOnFloor = FloorController.y - height/2;
     return  positionY >= positionYOnFloor - 0.5;
   }
-  static void jump(Engineer engineer){
-    if(canJump(engineer)){
+  static void jump(Entity engineer){
+    if(_canJump(engineer)){
       engineer.body.linearVelocity = Vector2(0, -7);
     }
   }
-  static void stopSpid(Engineer engineer){
+  static void _stopSpid(Entity engineer){
       engineer.body.angularVelocity = 0;
       engineer.body.setTransform(engineer.body.position, 0);
   }
-  static bool isLying(Engineer engineer){
+  static bool _isLying(Entity engineer){
     return engineer.body.angle.abs().round()!=0 && engineer.body.angle.abs()<=radians(360);
   }
-  static void spid(Engineer engineer){
+  static void _rotation(Entity engineer){
     engineer.body.angularVelocity = radians(360);
   }
-  static void standUp(Engineer engineer){
-    if(canJump(engineer) && isLying(engineer)){
-      spid(engineer);
-    } else if(canJump(engineer) && !isLying(engineer)){
-      stopSpid(engineer);
+  static void standUp(Entity engineer){
+    if(_canJump(engineer) && _isLying(engineer)){
+      _rotation(engineer);
+    } else if(_canJump(engineer) && !_isLying(engineer)){
+      _stopSpid(engineer);
     }
   }
-  static bool isResettable(Engineer engineer){
+  static bool isResettable(Entity engineer){
     return engineer.body.position.x <= xReset;
   }
 

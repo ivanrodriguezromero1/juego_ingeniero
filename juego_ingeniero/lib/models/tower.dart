@@ -1,23 +1,23 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 
 import '../controllers/screen_controller.dart';
 import '../controllers/tower_controller.dart';
 import '../utils/globals.dart';
 
-class Tower extends BodyComponent {
+class Tower extends Entity {
   Tower({required height}): _height = height;
   final double _height;
   late double _x;
   late double _y;
   late double _width;
-  late bool _state;
 
+  @override
   void initializing(){
     _width = TowerController.width;
     _x = TowerController.x;
     _y = 0.1 + (2*ScreenController.worldSize.y/3) - _height;
-    _state = true;
   }
   @override
   Body createBody() {
@@ -45,19 +45,5 @@ class Tower extends BodyComponent {
       size: Vector2(_width, _height),
       anchor: Anchor.center
     ));
-  }
-  @override
-  void update(double dt){
-    super.update(dt);
-    if(!_state){
-      destroyBody();
-    }
-  }
-  void destroy(){
-    _state = false;
-  }
-  void destroyBody(){
-    world.destroyBody(body);
-    gameRef.remove(this);
   }
 }

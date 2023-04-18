@@ -1,20 +1,20 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:juego_ingeniero/controllers/floor_controller.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 import 'package:juego_ingeniero/utils/globals.dart';
 
-class Floor extends BodyComponent {
+class Floor extends Entity {
   Floor({required x}):_x = x;
   late final double _x;
   late double _y;
   late double _width;
   late double _height;
-  late bool _state;
 
+  @override
   void initializing(){
     _width = FloorController.width;
     _y = FloorController.y;
-    _state = true;
   }
   @override
   Body createBody() {
@@ -43,19 +43,5 @@ class Floor extends BodyComponent {
       position: Vector2(0,-.02),
       anchor: Anchor.topLeft
     ));
-  }
-  @override
-  void update(double dt){
-    super.update(dt);
-    if(!_state){
-      destroyBody();
-    }
-  }
-  void destroy(){
-    _state = false;
-  }
-  void destroyBody(){
-    world.destroyBody(body);
-    gameRef.remove(this);
   }
 }

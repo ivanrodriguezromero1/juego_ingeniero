@@ -1,23 +1,23 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 
 import '../controllers/blade_controller.dart';
 import '../controllers/screen_controller.dart';
 import '../utils/globals.dart';
 
-class Blade extends BodyComponent {
+class Blade extends Entity {
   Blade({required height}): _height = height;
   late double _x;
   late double _y;
   late double _width;
   final double _height;
-  late bool _state;
 
+  @override
   void initializing(){
     _width = BladeController.width;
     _x = BladeController.x;
     _y = 0.1 + (2*ScreenController.worldSize.y/3) - 2*_height;
-    _state = true;
   }
   @override
   Body createBody() {
@@ -45,19 +45,5 @@ class Blade extends BodyComponent {
       size: Vector2(_width/2, 2*_height),
       anchor: Anchor.center
     ));
-  }
-  @override
-  void update(double dt){
-    super.update(dt);
-    if(!_state){
-      destroyBody();
-    }
-  }
-  void destroy(){
-    _state = false;
-  }
-  void destroyBody(){
-    world.destroyBody(body);
-    gameRef.remove(this);
   }
 }

@@ -3,8 +3,8 @@ import 'package:flame/components.dart';
 import 'package:juego_ingeniero/controllers/screen_controller.dart';
 import 'package:juego_ingeniero/models/counter.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 import 'package:juego_ingeniero/utils/constants.dart';
-import '../models/tower.dart';
 import '../utils/globals.dart';
 
 class TowerController {
@@ -12,10 +12,10 @@ class TowerController {
   static double x = ScreenController.worldSize.x + width/2;
   static bool _increase = true;
 
-  static void move(Tower tower){
+  static void move(Entity tower){
     tower.body.linearVelocity = worldLinearVelocity;
   }
-  static bool isPassingTower(Tower tower, Counter counter, AudioPlayer player){
+  static bool isPassingTower(Entity tower, Counter counter, AudioPlayer player){
     if(tower.body.position.x <= -1*(width)){
       tower.destroy();
       counter.count.text = (int.parse(counter.count.text) + 1).toString();

@@ -1,24 +1,24 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:juego_ingeniero/controllers/engineer_controller.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 
 import '../utils/globals.dart';
 
-class Engineer extends BodyComponent {
+class Engineer extends Entity {
   late double _side;
   late double _width;
   late double _height;
   late double _x;  
   late double _y;
-  late bool _state;
 
+  @override
   void initializing(){
     _side = EngineerController.side;
     _width = EngineerController.width;
     _height = EngineerController.height;
     _x = EngineerController.x;
     _y = EngineerController.y;
-    _state = true;
   }
   @override
   Body createBody(){
@@ -46,19 +46,5 @@ class Engineer extends BodyComponent {
       anchor: Anchor.center,
       removeOnFinish: false,
     ));
-  }
-  @override
-  void update(double dt){
-    super.update(dt);
-    if(!_state){
-      destroyBody();
-    }
-  }
-  void destroy(){
-    _state = false;
-  }
-  void destroyBody(){
-    world.destroyBody(body);
-    gameRef.remove(this);
   }
 }

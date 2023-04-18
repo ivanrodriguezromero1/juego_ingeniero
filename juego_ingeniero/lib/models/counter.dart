@@ -2,22 +2,23 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:juego_ingeniero/controllers/counter_controller.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 
-class Counter extends BodyComponent {
+class Counter extends Entity {
   late TextComponent count;
-  late bool _state;
   late double _x;
   late double _y;
   late double _xScale;
   late double _yScale;
   late double _fontSize;
+  
+  @override
   void initializing(){
     _x = CounterController.x;
     _y = CounterController.y;
     _xScale = CounterController.xScale;
     _yScale = CounterController.yScale;
     _fontSize = CounterController.fontSize;
-    _state = true;
     count = TextComponent(
       position: Vector2.zero(),
       text: '0',
@@ -44,19 +45,5 @@ class Counter extends BodyComponent {
     await super.onLoad();
     renderBody = false;
     add(count);
-  }
-  @override
-  void update(double dt){
-    super.update(dt);
-    if(!_state){
-      destroyBody();
-    }
-  }
-  void destroy(){
-    _state = false;
-  }
-  void destroyBody(){
-    world.destroyBody(body);
-    gameRef.remove(this);
   }
 }

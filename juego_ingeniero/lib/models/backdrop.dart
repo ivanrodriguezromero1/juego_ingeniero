@@ -1,21 +1,21 @@
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:juego_ingeniero/models/entity.dart';
 import '../controllers/backdrop_controller.dart';
 import '../utils/globals.dart';
 
-class Backdrop extends BodyComponent {
+class Backdrop extends Entity {
   Backdrop({required x}):_x = x;
   late final double _x;
   late double _y;
   late double _width;
   late double _height;
-  late bool _state;
 
+  @override
   void initializing(){
     _width = BackdropController.width;
     _y = BackdropController.y;
-    _state = true;
   }
   @override
   Body createBody() {
@@ -45,19 +45,5 @@ class Backdrop extends BodyComponent {
       position: Vector2(0,-.02),
       anchor: Anchor.topLeft
     ));
-  }
-  @override
-  void update(double dt){
-    super.update(dt);
-    if(!_state){
-      destroyBody();
-    }
-  }
-  void destroy(){
-    _state = false;
-  }
-  void destroyBody(){
-    world.destroyBody(body);
-    gameRef.remove(this);
   }
 }
