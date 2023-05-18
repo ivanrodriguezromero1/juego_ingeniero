@@ -2,8 +2,6 @@
 import 'package:flame/components.dart';
 import 'package:juego_ingeniero/controllers/screen_controller.dart';
 import 'package:juego_ingeniero/models/entity.dart';
-
-import '../models/engineer.dart';
 import '../utils/globals.dart';
 import 'floor_controller.dart';
 

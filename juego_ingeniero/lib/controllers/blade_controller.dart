@@ -1,8 +1,4 @@
-import 'dart:math';
-
-import 'package:flame/components.dart';
 import 'package:juego_ingeniero/controllers/screen_controller.dart';
-import 'package:juego_ingeniero/models/blade.dart';
 import 'package:juego_ingeniero/models/entity.dart';
 
 import '../utils/globals.dart';

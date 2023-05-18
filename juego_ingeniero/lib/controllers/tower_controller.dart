@@ -17,7 +17,7 @@ class TowerController {
   }
   static bool isPassingTower(Entity tower, Counter counter, AudioPlayer player){
     if(tower.body.position.x <= -1*(width)){
-      tower.destroy();
+      // tower.destroy();
       counter.count.text = (int.parse(counter.count.text) + 1).toString();
       worldLinearVelocity += _getWorldLinearVelocity();
       bladeAngularVelocity = _getBladeAngularVelocity();

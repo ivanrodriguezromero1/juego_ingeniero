@@ -73,6 +73,10 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     add(_tower);
     add(_blade);
   }
+  void destroyWindTurbine(){
+    _tower.destroy();
+    _blade.destroy();
+  }
   void addWall(){
     _wall = Wall();
     add(_wall);
@@ -135,6 +139,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     BladeController.move(_blade);
     EngineerController.standUp(_engineer);
     if(TowerController.isPassingTower(_tower, _counter, player)){
+      destroyWindTurbine();
       addWindTurbine();
     }
     if(EngineerController.isResettable(_engineer)){
