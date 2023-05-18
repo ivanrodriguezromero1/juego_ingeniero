@@ -114,7 +114,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     addCounter();
   }
   void resetWorld(){
-    player.play(AssetSource(loseSoundFilename));   
+    player.play(AssetSource(loseSoundFilename));
     destroyBodies();
     resetVelocity();    
     addComponents();
