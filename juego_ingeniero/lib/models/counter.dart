@@ -1,8 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:juego_ingeniero/controllers/counter_controller.dart';
-import 'package:juego_ingeniero/models/entity.dart';
+import '../models/entity.dart';
 
 class Counter extends Entity {
   late TextComponent count;
@@ -14,11 +13,11 @@ class Counter extends Entity {
   
   @override
   void initializing(){
-    _x = CounterController.x;
-    _y = CounterController.y;
-    _xScale = CounterController.xScale;
-    _yScale = CounterController.yScale;
-    _fontSize = CounterController.fontSize;
+    _x = 0.2;
+    _y = 0.2;
+    _xScale = 0.4;
+    _yScale = 0.4;
+    _fontSize = 1;
     count = TextComponent(
       position: Vector2.zero(),
       text: '0',

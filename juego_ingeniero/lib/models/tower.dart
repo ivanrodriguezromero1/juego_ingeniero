@@ -1,9 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:juego_ingeniero/models/entity.dart';
-
+import '../models/entity.dart';
 import '../controllers/screen_controller.dart';
-import '../controllers/tower_controller.dart';
 import '../utils/globals.dart';
 
 class Tower extends Entity {
@@ -15,8 +13,8 @@ class Tower extends Entity {
 
   @override
   void initializing(){
-    _width = TowerController.width;
-    _x = TowerController.x;
+    _width = ScreenController.worldSize.x/20;
+    _x = ScreenController.worldSize.x + _width/2;
     _y = 0.1 + (2*ScreenController.worldSize.y/3) - _height;
   }
   @override

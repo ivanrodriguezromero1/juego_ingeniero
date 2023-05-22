@@ -1,8 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:juego_ingeniero/controllers/floor_controller.dart';
-import 'package:juego_ingeniero/models/entity.dart';
-import 'package:juego_ingeniero/utils/globals.dart';
+import '../models/entity.dart';
+import '../utils/globals.dart';
+import '../controllers/screen_controller.dart';
 
 class Floor extends Entity {
   Floor({required x}):_x = x;
@@ -13,8 +13,9 @@ class Floor extends Entity {
 
   @override
   void initializing(){
-    _width = FloorController.width;
-    _y = FloorController.y;
+    _width = 2*ScreenController.worldSize.x;
+    _height = ScreenController.worldSize.y/3;
+    _y = posY0;
   }
   @override
   Body createBody() {
@@ -36,7 +37,6 @@ class Floor extends Entity {
     await super.onLoad();
     renderBody = false;
     final sprite = floor;
-    _height = FloorController.height;
     add(SpriteComponent(
       sprite: sprite,
       size: Vector2(_width, _height),

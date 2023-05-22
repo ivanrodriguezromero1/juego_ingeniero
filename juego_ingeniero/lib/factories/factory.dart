@@ -1,9 +1,8 @@
-import 'package:juego_ingeniero/models/engineer.dart';
-import 'package:juego_ingeniero/models/entity.dart';
-import 'package:juego_ingeniero/models/floor.dart';
-import 'package:juego_ingeniero/models/tower.dart';
-import 'package:juego_ingeniero/models/wall.dart';
-
+import '../models/engineer.dart';
+import '../models/entity.dart';
+import '../models/floor.dart';
+import '../models/tower.dart';
+import '../models/wall.dart';
 import '../models/backdrop.dart';
 import '../models/blade.dart';
 

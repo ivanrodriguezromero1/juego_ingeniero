@@ -1,12 +1,12 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:juego_ingeniero/controllers/engineer_controller.dart';
-import 'package:juego_ingeniero/models/entity.dart';
+import '../controllers/engineer_controller.dart';
+import '../controllers/screen_controller.dart';
+import '../models/entity.dart';
 
 import '../utils/globals.dart';
 
 class Engineer extends Entity {
-  late double _side;
   late double _width;
   late double _height;
   late double _x;  
@@ -14,20 +14,19 @@ class Engineer extends Entity {
 
   @override
   void initializing(){
-    _side = EngineerController.side;
-    _width = EngineerController.width;
-    _height = EngineerController.height;
-    _x = EngineerController.x;
-    _y = EngineerController.y;
+    _width = ingenieros[0].image.width/1500;
+    _height = ingenieros[0].image.height/1500;
+    _x = 1;
+    _y = ScreenController.worldSize.y/5;
   }
   @override
   Body createBody(){
     initializing();
     final bodyDef = BodyDef(
-      position: Vector2(_x,0) + Vector2(_side, _y),
+      position: Vector2(_x,0) + Vector2(_width, _y),
       type: BodyType.dynamic,
     );
-    final shape = PolygonShape()..setAsBoxXY(_side,_side);
+    final shape = PolygonShape()..setAsBoxXY(_width,_width);
     final fixtureDef = FixtureDef(shape)
       ..density = 10
       ..restitution = 0;

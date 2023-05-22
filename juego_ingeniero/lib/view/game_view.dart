@@ -2,23 +2,21 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:juego_ingeniero/controllers/asset_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:juego_ingeniero/controllers/blade_controller.dart';
-import 'package:juego_ingeniero/controllers/engineer_controller.dart';
-import 'package:juego_ingeniero/controllers/pattern_controller.dart';
-import 'package:juego_ingeniero/factories/factory.dart';
-import 'package:juego_ingeniero/models/entity.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import '../controllers/backdrop_controller.dart';
-import '../controllers/floor_controller.dart';
+import 'package:flutter/material.dart';
+import '../controllers/blade_controller.dart';
+import '../controllers/engineer_controller.dart';
+import '../controllers/pattern_controller.dart';
+import '../factories/factory.dart';
+import '../models/entity.dart';
 import '../controllers/screen_controller.dart';
 import '../controllers/tower_controller.dart';
 import '../models/counter.dart';
 import '../models/wall.dart';
+import '../utils/camera.dart';
 import '../utils/constants.dart';
 import '../utils/globals.dart';
-
+import '../utils/load.dart';
 
 class GameEngineer extends StatefulWidget {
   const GameEngineer({Key? key}) : super(key: key);
@@ -29,7 +27,9 @@ Game controlledGameBuilder() {
   return MyGameEngineer();
 }
 class GameEngineerState extends State<GameEngineer> {
-  Widget buildGameWidget(BuildContext context) => const GameWidget.controlled(gameFactory: controlledGameBuilder);
+  Widget buildGameWidget(BuildContext context) => const GameWidget.controlled(
+    gameFactory: controlledGameBuilder
+  );
   @override
   Widget build(BuildContext context) {
     return buildGameWidget(context);
@@ -46,23 +46,17 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   late Entity _engineer;
   late Counter _counter;
 
-  void configCamera(){
-    double width = 836;
-    double height = 393;
-    ScreenController.setScreenSize(Vector2(width, height));
-    camera.viewport = FixedResolutionViewport(ScreenController.screenSize);
-  }
   void addBackdrops(){
     _backdrops = [
       Factory.createObject('backdrop', x: 0),
-      Factory.createObject('backdrop', x: BackdropController.width - 0.01)
+      Factory.createObject('backdrop', x: totalWidth - 0.01)
     ];
     addAll(_backdrops);
   }
   void addFloor(){
     _floors = [
       Factory.createObject('floor', x: 0),
-      Factory.createObject('floor', x: FloorController.width - 0.01)
+      Factory.createObject('floor', x: totalWidth - 0.01)
     ];
     addAll(_floors);
   }
@@ -98,7 +92,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     _wall.destroy();
     _tower.destroy();
     _blade.destroy();
-    _engineer.destroy();    
+    _engineer.destroy();
     _counter.destroy();
   }
   void resetVelocity(){
@@ -116,13 +110,13 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   void resetWorld(){
     player.play(AssetSource(loseSoundFilename));
     destroyBodies();
-    resetVelocity();    
+    resetVelocity();
     addComponents();
   }
   @override
   Future<void> onLoad() async {
-    configCamera();
-    await AssetController.instance.loadAssets();
+    configCamera(camera);
+    await Assets.instance.loadAssets();
     addComponents();
   }
   @override
@@ -133,10 +127,11 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   @override
   void update(double dt) {
     super.update(dt);
-    PatternController.infinityMove(_backdrops, BackdropController.width, BackdropController.y);
-    PatternController.infinityMove(_floors, FloorController.width, FloorController.y);
+    PatternController.infinityMove(_backdrops, totalWidth, 0);
+    PatternController.infinityMove(_floors, totalWidth, posY0);
     TowerController.move(_tower);
     BladeController.move(_blade);
+    EngineerController.setCanJump(_engineer);
     EngineerController.standUp(_engineer);
     if(TowerController.isPassingTower(_tower, _counter, player)){
       destroyWindTurbine();

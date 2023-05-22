@@ -1,6 +1,6 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:juego_ingeniero/models/entity.dart';
-import '../controllers/wall_controller.dart';
+import '../controllers/screen_controller.dart';
+import '../models/entity.dart';
 
 class Wall extends Entity {
   late double _x;
@@ -9,9 +9,9 @@ class Wall extends Entity {
   
   @override
   void initializing(){
-    _height = WallController.height;
-    _x = WallController.x;
-    _y = WallController.y;
+    _height = ScreenController.worldSize.y;
+    _x = ScreenController.worldSize.x + 0.1;
+    _y = ScreenController.worldSize.y;
   }
   @override
   Body createBody() {

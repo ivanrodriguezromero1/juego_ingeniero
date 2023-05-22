@@ -1,23 +1,19 @@
 import 'dart:math';
 import 'package:flame/components.dart';
-import 'package:juego_ingeniero/controllers/screen_controller.dart';
-import 'package:juego_ingeniero/models/counter.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:juego_ingeniero/models/entity.dart';
-import 'package:juego_ingeniero/utils/constants.dart';
+import '../controllers/screen_controller.dart';
+import '../models/counter.dart';
+import '../models/entity.dart';
+import '../utils/constants.dart';
 import '../utils/globals.dart';
 
 class TowerController {
-  static double width = ScreenController.worldSize.x/20;
-  static double x = ScreenController.worldSize.x + width/2;
   static bool _increase = true;
-
   static void move(Entity tower){
     tower.body.linearVelocity = worldLinearVelocity;
   }
   static bool isPassingTower(Entity tower, Counter counter, AudioPlayer player){
-    if(tower.body.position.x <= -1*(width)){
-      // tower.destroy();
+    if(tower.body.position.x <= -1*(ScreenController.worldSize.x/20)){
       counter.count.text = (int.parse(counter.count.text) + 1).toString();
       worldLinearVelocity += _getWorldLinearVelocity();
       bladeAngularVelocity = _getBladeAngularVelocity();

@@ -1,8 +1,7 @@
-
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:juego_ingeniero/models/entity.dart';
-import '../controllers/backdrop_controller.dart';
+import '../models/entity.dart';
+import '../controllers/screen_controller.dart';
 import '../utils/globals.dart';
 
 class Backdrop extends Entity {
@@ -14,8 +13,9 @@ class Backdrop extends Entity {
 
   @override
   void initializing(){
-    _width = BackdropController.width;
-    _y = BackdropController.y;
+    _width = 2*ScreenController.worldSize.x;
+    _height = 2*ScreenController.worldSize.y/3;
+    _y = 0;
   }
   @override
   Body createBody() {
@@ -38,7 +38,6 @@ class Backdrop extends Entity {
     await super.onLoad();
     renderBody = false;
     final sprite = backdrop;
-    _height = BackdropController.height;
     add(SpriteComponent(
       sprite: sprite,
       size: Vector2(_width, _height),

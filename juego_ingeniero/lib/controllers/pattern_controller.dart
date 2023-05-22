@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import 'package:juego_ingeniero/models/entity.dart';
+import '../models/entity.dart';
 import '../utils/globals.dart';
 
 class PatternController {

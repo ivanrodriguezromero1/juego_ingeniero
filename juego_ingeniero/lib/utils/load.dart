@@ -1,12 +1,12 @@
 import 'package:flame/components.dart';
-import 'package:juego_ingeniero/utils/constants.dart';
-import 'package:juego_ingeniero/utils/globals.dart';
+import '../utils/constants.dart';
+import '../utils/globals.dart';
 
-class AssetController {
-  static AssetController? _instance;
-  AssetController._();
-  static AssetController get instance {
-    _instance ??= AssetController._();
+class Assets {
+  static Assets? _instance;
+  Assets._();
+  static Assets get instance {
+    _instance ??= Assets._();
     return _instance!;
   }
   Future<void> loadAssets() async {
