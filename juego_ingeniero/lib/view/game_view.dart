@@ -42,74 +42,61 @@ class GameEngineerState extends State<GameEngineer> {
 class MyGameEngineer extends Forge2DGame with TapDetector {
   MyGameEngineer(): super(zoom: 100, gravity: Vector2(0, 15));
   //--------------Main Code-------------------------------------------
-  late List<Entity> _backdrops;
-  late List<Entity> _floors;
-  late Entity _tower;
-  late Entity _blade;
-  late Entity _wall;
-  late Entity _engineer;
-  late Counter _counter;
-
-  void addBackdrops(){
-    _backdrops = [
-      Backdrop(x: 0),
-      Backdrop(x: totalWidth)
-    ];
-    addAll(_backdrops);
+  late List<Entity> backdrops;
+  late List<Entity> floors;
+  late Entity tower;
+  late Entity blade;
+  late Entity wall;
+  late Entity engineer;
+  late Counter counter;
+  void initialize(){
+    backdrops = [Backdrop(x: 0), Backdrop(x: totalWidth)];
+    floors = [Floor(x: 0), Floor(x: totalWidth)];
+    double h  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
+    tower = Tower(height: h);
+    blade = Blade(height: h/2);
+    wall = Wall();
+    engineer = Engineer();
+    counter = Counter();
   }
-  void addFloor(){
-    _floors = [
-      Floor(x: 0),
-      Floor(x: totalWidth)
-    ];
-    addAll(_floors);
+  void addToWorld(){
+    addAll(backdrops);
+    addAll(floors);
+    add(tower);
+    add(blade);
+    add(wall);
+    add(engineer);
+    add(counter);
   }
   void addWindTurbine(){
     double height  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
-    _tower = Tower(height: height);
-    _blade = Blade(height: height/2); 
-    add(_tower);
-    add(_blade);
+    tower = Tower(height: height);
+    blade = Blade(height: height/2); 
+    add(tower);
+    add(blade);
   }
   void destroyWindTurbine(){
-    _tower.destroy();
-    _blade.destroy();
+    tower.destroy();
+    blade.destroy();
   }
-  void addWall(){
-    _wall = Wall();
-    add(_wall);
-  }
-  void addEngineer(){
-    _engineer = Engineer();
-    add(_engineer);
-  }
-  void addCounter(){
-    _counter = Counter();
-    add(_counter);
-  }
-
   void destroyBodies(){
-    _backdrops[0].destroy();
-    _backdrops[1].destroy();
-    _floors[0].destroy();
-    _floors[1].destroy();
-    _wall.destroy();
-    _tower.destroy();
-    _blade.destroy();
-    _engineer.destroy();
-    _counter.destroy();
+    backdrops[0].destroy();
+    backdrops[1].destroy();
+    floors[0].destroy();
+    floors[1].destroy();
+    wall.destroy();
+    tower.destroy();
+    blade.destroy();
+    engineer.destroy();
+    counter.destroy();
   }
   void resetVelocity(){
     worldLinearVelocity = initialWorldLinearVelocity;
     bladeAngularVelocity = initialBladeAngularVelocity;
   }
   void addComponents(){
-    addBackdrops();
-    addFloor();
-    addWindTurbine();
-    addWall();
-    addEngineer();
-    addCounter();
+    initialize();
+    addToWorld();
   }
   void resetWorld(){
     player.play(AssetSource(loseSoundFilename));
@@ -126,22 +113,22 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   @override
   void onTapDown(TapDownInfo info) {
     super.onTapDown(info);
-    EngineerController.jump(_engineer);
+    EngineerController.jump(engineer);
   }
   @override
   void update(double dt) {
     super.update(dt);
-    PatternController.infinityMove(_backdrops, totalWidth, 0);
-    PatternController.infinityMove(_floors, totalWidth, posY0);
-    TowerController.move(_tower);
-    BladeController.move(_blade);
-    EngineerController.setCanJump(_engineer);
-    EngineerController.standUp(_engineer);
-    if(TowerController.isPassingTower(_tower, _counter, player)){
+    PatternController.infinityMove(backdrops, totalWidth, 0);
+    PatternController.infinityMove(floors, totalWidth, posY0);
+    TowerController.move(tower);
+    BladeController.move(blade);
+    EngineerController.setCanJump(engineer);
+    EngineerController.standUp(engineer);
+    if(TowerController.isPassingTower(tower, counter, player)){
       destroyWindTurbine();
       addWindTurbine();
     }
-    if(EngineerController.isResettable(_engineer)){
+    if(EngineerController.isResettable(engineer)){
       resetWorld();
     }
   }
