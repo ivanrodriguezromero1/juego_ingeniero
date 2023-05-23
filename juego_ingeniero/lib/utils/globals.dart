@@ -16,3 +16,4 @@ Vector2 worldLinearVelocity = initialWorldLinearVelocity;
 double bladeAngularVelocity = initialBladeAngularVelocity;
 double posY0 = 2 * ScreenController.worldSize.y/3;
 double totalWidth = 2 * ScreenController.worldSize.x - 0.01;
+late double heightWindTurbine;

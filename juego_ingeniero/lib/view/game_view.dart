@@ -41,7 +41,9 @@ class GameEngineerState extends State<GameEngineer> {
 }
 class MyGameEngineer extends Forge2DGame with TapDetector {
   MyGameEngineer(): super(zoom: 100, gravity: Vector2(0, 15));
+  
   //--------------Main Code-------------------------------------------
+  
   late List<Entity> backdrops;
   late List<Entity> floors;
   late Entity tower;
@@ -49,12 +51,13 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   late Entity wall;
   late Entity engineer;
   late Counter counter;
+
   void initialize(){
     backdrops = [Backdrop(x: 0), Backdrop(x: totalWidth)];
     floors = [Floor(x: 0), Floor(x: totalWidth)];
-    double h  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
-    tower = Tower(height: h);
-    blade = Blade(height: h/2);
+    heightWindTurbine  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
+    tower = Tower(height: heightWindTurbine);
+    blade = Blade(height: heightWindTurbine/2);
     wall = Wall();
     engineer = Engineer();
     counter = Counter();
@@ -68,16 +71,14 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     add(engineer);
     add(counter);
   }
-  void addWindTurbine(){
-    double height  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
-    tower = Tower(height: height);
-    blade = Blade(height: height/2); 
-    add(tower);
-    add(blade);
-  }
-  void destroyWindTurbine(){
+  void newWindTurbine(){
     tower.destroy();
     blade.destroy();
+    heightWindTurbine  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
+    tower = Tower(height: heightWindTurbine);
+    blade = Blade(height: heightWindTurbine/2);
+    add(tower);
+    add(blade);
   }
   void destroyBodies(){
     backdrops[0].destroy();
@@ -125,8 +126,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     EngineerController.setCanJump(engineer);
     EngineerController.standUp(engineer);
     if(TowerController.isPassingTower(tower, counter, player)){
-      destroyWindTurbine();
-      addWindTurbine();
+      newWindTurbine();
     }
     if(EngineerController.isResettable(engineer)){
       resetWorld();
