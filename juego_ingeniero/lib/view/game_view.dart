@@ -4,14 +4,18 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:juego_ingeniero/models/engineer.dart';
+import 'package:juego_ingeniero/models/floor.dart';
 import '../controllers/blade_controller.dart';
 import '../controllers/engineer_controller.dart';
 import '../controllers/pattern_controller.dart';
-import '../factories/factory.dart';
+import '../models/backdrop.dart';
+import '../models/blade.dart';
 import '../models/entity.dart';
 import '../controllers/screen_controller.dart';
 import '../controllers/tower_controller.dart';
 import '../models/counter.dart';
+import '../models/tower.dart';
 import '../models/wall.dart';
 import '../utils/camera.dart';
 import '../utils/constants.dart';
@@ -35,9 +39,9 @@ class GameEngineerState extends State<GameEngineer> {
     return buildGameWidget(context);
   }
 }
-
 class MyGameEngineer extends Forge2DGame with TapDetector {
   MyGameEngineer(): super(zoom: 100, gravity: Vector2(0, 15));
+  //--------------Main Code-------------------------------------------
   late List<Entity> _backdrops;
   late List<Entity> _floors;
   late Entity _tower;
@@ -48,22 +52,22 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
 
   void addBackdrops(){
     _backdrops = [
-      Factory.createObject('backdrop', x: 0),
-      Factory.createObject('backdrop', x: totalWidth - 0.01)
+      Backdrop(x: 0),
+      Backdrop(x: totalWidth)
     ];
     addAll(_backdrops);
   }
   void addFloor(){
     _floors = [
-      Factory.createObject('floor', x: 0),
-      Factory.createObject('floor', x: totalWidth - 0.01)
+      Floor(x: 0),
+      Floor(x: totalWidth)
     ];
     addAll(_floors);
   }
   void addWindTurbine(){
     double height  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
-    _tower = Factory.createObject('tower',height: height);
-    _blade = Factory.createObject('blade',height: height/2); 
+    _tower = Tower(height: height);
+    _blade = Blade(height: height/2); 
     add(_tower);
     add(_blade);
   }
@@ -76,7 +80,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     add(_wall);
   }
   void addEngineer(){
-    _engineer = Factory.createObject('engineer');
+    _engineer = Engineer();
     add(_engineer);
   }
   void addCounter(){
@@ -141,5 +145,5 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
       resetWorld();
     }
   }
-  
+  //--------------------------------------------------------------
 }
