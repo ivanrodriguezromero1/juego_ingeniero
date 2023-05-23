@@ -53,6 +53,5 @@ app.*.map.json
 /analysis_options.yaml
 /.metadata
 /pubspec.lock
-/pubspec.yaml
 /README.md
 /test/
