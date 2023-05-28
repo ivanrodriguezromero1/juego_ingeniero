@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:audioplayers/audioplayers.dart';
-import '../controllers/screen_controller.dart';
+import '../models/screen.dart';
 import '../models/counter.dart';
 import '../models/entity.dart';
 import '../utils/constants.dart';
@@ -15,7 +15,7 @@ class WindTurbineController {
     blade.body.angularVelocity = bladeAngularVelocity;
   }
   static bool isPassingTower(Entity blade, Counter counter, AudioPlayer player){
-    if(blade.body.position.x <= -1*(ScreenController.worldSize.x/20)){
+    if(blade.body.position.x <= -1*(Screen.worldSize.x/20)){
       counter.count.text = (int.parse(counter.count.text) + 1).toString();
       worldLinearVelocity += _getWorldLinearVelocity();
       bladeAngularVelocity = _getBladeAngularVelocity();

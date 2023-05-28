@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import '../models/entity.dart';
-import '../controllers/screen_controller.dart';
+import '../models/screen.dart';
 import '../utils/globals.dart';
 
 class Tower extends Entity {
@@ -14,15 +14,15 @@ class Tower extends Entity {
 
   @override
   void initializing(){
-    _width = ScreenController.worldSize.x/20;
+    _width = Screen.worldSize.x/20;
     _x = getXStart();
     _y = getY(_height);
   }
   double getXStart(){
-    return ScreenController.worldSize.x + _width/2;
+    return Screen.worldSize.x + _width/2;
   }
   double getY(double h){
-    return 0.1 + (2*ScreenController.worldSize.y/3) - h;
+    return 0.1 + (2*Screen.worldSize.y/3) - h;
   }
   @override
   Body createBody() {

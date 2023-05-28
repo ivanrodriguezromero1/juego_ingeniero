@@ -1,5 +1,5 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import '../controllers/screen_controller.dart';
+import '../models/screen.dart';
 import '../models/entity.dart';
 
 class Wall extends Entity {
@@ -9,9 +9,9 @@ class Wall extends Entity {
   
   @override
   void initializing(){
-    _height = ScreenController.worldSize.y;
-    _x = ScreenController.worldSize.x + 0.1;
-    _y = ScreenController.worldSize.y;
+    _height = Screen.worldSize.y;
+    _x = Screen.worldSize.x + 0.1;
+    _y = Screen.worldSize.y;
   }
   @override
   Body createBody() {

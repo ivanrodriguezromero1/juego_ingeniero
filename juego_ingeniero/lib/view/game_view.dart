@@ -10,11 +10,9 @@ import 'package:juego_ingeniero/models/wind_turbine.dart';
 import '../controllers/engineer_controller.dart';
 import '../controllers/background_controller.dart';
 import '../models/backdrop.dart';
-import '../models/blade.dart';
-import '../controllers/screen_controller.dart';
+import '../models/screen.dart';
 import '../controllers/wind_turbine_controller.dart';
 import '../models/counter.dart';
-import '../models/tower.dart';
 import '../models/wall.dart';
 import '../utils/camera.dart';
 import '../utils/constants.dart';
@@ -51,7 +49,7 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   late Counter counter;
 
   double heightRandom(){
-    return (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
+    return (Screen.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
   }
   void initialize(){
     // Max X 8.4

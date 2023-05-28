@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import '../models/entity.dart';
-import '../controllers/screen_controller.dart';
+import '../models/screen.dart';
 import '../utils/globals.dart';
 
 class Backdrop extends Entity {
@@ -13,8 +13,8 @@ class Backdrop extends Entity {
 
   @override
   void initializing(){
-    _width = 2*ScreenController.worldSize.x;
-    _height = 2*ScreenController.worldSize.y/3;
+    _width = 2*Screen.worldSize.x;
+    _height = 2*Screen.worldSize.y/3;
     _y = 0;
   }
   @override

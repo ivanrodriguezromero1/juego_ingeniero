@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import '../controllers/screen_controller.dart';
+import '../models/screen.dart';
 import '../models/entity.dart';
 
 import '../utils/globals.dart';
@@ -16,7 +16,7 @@ class Engineer extends Entity {
     _width = ingenierosSprites[0].image.width/1500;
     _height = ingenierosSprites[0].image.height/1500;
     _x = 1;
-    _y = ScreenController.worldSize.y/5;
+    _y = Screen.worldSize.y/5;
   }
   @override
   Body createBody(){

@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame/components.dart';
-import '../controllers/screen_controller.dart';
+import '../models/screen.dart';
 
 late List<Sprite> ingenierosSprites;
 late Sprite floorSprite;
@@ -14,5 +14,5 @@ Vector2 initialWorldLinearVelocity = Vector2(-4, 0);
 double initialBladeAngularVelocity = radians(360);
 Vector2 worldLinearVelocity = initialWorldLinearVelocity;
 double bladeAngularVelocity = initialBladeAngularVelocity;
-double posY0 = 2 * ScreenController.worldSize.y/3;
-double totalWidth = 2 * ScreenController.worldSize.x - 0.01;
+double posY0 = 2 * Screen.worldSize.y/3;
+double totalWidth = 2 * Screen.worldSize.x - 0.01;

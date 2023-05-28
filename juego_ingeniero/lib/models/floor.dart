@@ -1,8 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import '../models/entity.dart';
+import '../models/screen.dart';
 import '../utils/globals.dart';
-import '../controllers/screen_controller.dart';
 
 class Floor extends Entity {
   Floor({required x}):_x = x;
@@ -13,8 +13,8 @@ class Floor extends Entity {
 
   @override
   void initializing(){
-    _width = 2*ScreenController.worldSize.x;
-    _height = ScreenController.worldSize.y/3;
+    _width = 2*Screen.worldSize.x;
+    _height = Screen.worldSize.y/3;
     _y = posY0;
   }
   @override

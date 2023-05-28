@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 
-class ScreenController {
+class Screen {
   static late Vector2 _screenSize;
   static late Vector2 _worldSize;
   
