@@ -5,7 +5,7 @@ import '../models/screen.dart';
 import '../utils/globals.dart';
 
 class Backdrop extends Entity {
-  Backdrop({required x}):_x = x;
+  Backdrop({required double x}):_x = x;
   late final double _x;
   late double _y;
   late double _width;

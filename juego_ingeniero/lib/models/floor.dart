@@ -5,7 +5,7 @@ import '../models/screen.dart';
 import '../utils/globals.dart';
 
 class Floor extends Entity {
-  Floor({required x}):_x = x;
+  Floor({required double x}):_x = x;
   late final double _x;
   late double _y;
   late double _width;

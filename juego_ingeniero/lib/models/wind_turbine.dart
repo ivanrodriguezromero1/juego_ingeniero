@@ -5,7 +5,7 @@ class WindTurbine {
   late Tower _tower;
   late Blade _blade;
   final double _height;
-  WindTurbine({required height}):_height=height{
+  WindTurbine({required double height}):_height=height{
     _tower = Tower(height: _height);
     _blade = Blade(height: _height);
   }   

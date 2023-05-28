@@ -5,7 +5,7 @@ import '../models/screen.dart';
 import '../utils/globals.dart';
 
 class Blade extends Entity {
-  Blade({required height}): _height = height;
+  Blade({required double height}): _height = height;
   late double _x;
   late double _y;
   late double _width;
