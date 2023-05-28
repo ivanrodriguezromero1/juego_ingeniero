@@ -7,13 +7,15 @@ import '../models/entity.dart';
 import '../utils/constants.dart';
 import '../utils/globals.dart';
 
-class TowerController {
+class WindTurbineController {
   static bool _increase = true;
-  static void move(Entity tower){
+  static void move(Entity tower, Entity blade){
     tower.body.linearVelocity = worldLinearVelocity;
+    blade.body.linearVelocity = worldLinearVelocity;
+    blade.body.angularVelocity = bladeAngularVelocity;
   }
-  static bool isPassingTower(Entity tower, Counter counter, AudioPlayer player){
-    if(tower.body.position.x <= -1*(ScreenController.worldSize.x/20)){
+  static bool isPassingTower(Entity blade, Counter counter, AudioPlayer player){
+    if(blade.body.position.x <= -1*(ScreenController.worldSize.x/20)){
       counter.count.text = (int.parse(counter.count.text) + 1).toString();
       worldLinearVelocity += _getWorldLinearVelocity();
       bladeAngularVelocity = _getBladeAngularVelocity();

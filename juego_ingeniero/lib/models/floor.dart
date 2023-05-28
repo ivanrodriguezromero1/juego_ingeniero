@@ -36,7 +36,7 @@ class Floor extends Entity {
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
-    final sprite = floor;
+    final sprite = floorSprite;
     add(SpriteComponent(
       sprite: sprite,
       size: Vector2(_width, _height),

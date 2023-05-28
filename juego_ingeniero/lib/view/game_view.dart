@@ -6,14 +6,13 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:juego_ingeniero/models/engineer.dart';
 import 'package:juego_ingeniero/models/floor.dart';
-import '../controllers/blade_controller.dart';
+import 'package:juego_ingeniero/models/wind_turbine.dart';
 import '../controllers/engineer_controller.dart';
-import '../controllers/pattern_controller.dart';
+import '../controllers/background_controller.dart';
 import '../models/backdrop.dart';
 import '../models/blade.dart';
-import '../models/entity.dart';
 import '../controllers/screen_controller.dart';
-import '../controllers/tower_controller.dart';
+import '../controllers/wind_turbine_controller.dart';
 import '../models/counter.dart';
 import '../models/tower.dart';
 import '../models/wall.dart';
@@ -44,20 +43,22 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   
   //--------------Main Code-------------------------------------------
   
-  late List<Entity> backdrops;
-  late List<Entity> floors;
-  late Entity tower;
-  late Entity blade;
-  late Entity wall;
-  late Entity engineer;
+  late List<Backdrop> backdrops;
+  late List<Floor> floors;
+  late WindTurbine windTurbine;
+  late Wall wall;
+  late Engineer engineer;
   late Counter counter;
 
+  double heightRandom(){
+    return (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
+  }
   void initialize(){
+    // Max X 8.4
     backdrops = [Backdrop(x: 0), Backdrop(x: totalWidth)];
     floors = [Floor(x: 0), Floor(x: totalWidth)];
-    heightWindTurbine  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
-    tower = Tower(height: heightWindTurbine);
-    blade = Blade(height: heightWindTurbine/2);
+    double h  = heightRandom();
+    windTurbine = WindTurbine(height: h);
     wall = Wall();
     engineer = Engineer();
     counter = Counter();
@@ -65,20 +66,11 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   void addToWorld(){
     addAll(backdrops);
     addAll(floors);
-    add(tower);
-    add(blade);
+    add(windTurbine.tower);
+    add(windTurbine.blade);
     add(wall);
     add(engineer);
     add(counter);
-  }
-  void newWindTurbine(){
-    tower.destroy();
-    blade.destroy();
-    heightWindTurbine  = (ScreenController.worldSize.y/4)*(1 + 0.5*Random().nextDouble());
-    tower = Tower(height: heightWindTurbine);
-    blade = Blade(height: heightWindTurbine/2);
-    add(tower);
-    add(blade);
   }
   void destroyBodies(){
     backdrops[0].destroy();
@@ -86,10 +78,10 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
     floors[0].destroy();
     floors[1].destroy();
     wall.destroy();
-    tower.destroy();
-    blade.destroy();
+    windTurbine.tower.destroy();
+    windTurbine.blade.destroy();
     engineer.destroy();
-    counter.destroy();
+    counter.destroy(); 
   }
   void resetVelocity(){
     worldLinearVelocity = initialWorldLinearVelocity;
@@ -119,16 +111,19 @@ class MyGameEngineer extends Forge2DGame with TapDetector {
   @override
   void update(double dt) {
     super.update(dt);
-    PatternController.infinityMove(backdrops, totalWidth, 0);
-    PatternController.infinityMove(floors, totalWidth, posY0);
-    TowerController.move(tower);
-    BladeController.move(blade);
+    BackgroundController.move(backdrops, 0);
+    BackgroundController.move(floors, posY0);
     EngineerController.setCanJump(engineer);
     EngineerController.standUp(engineer);
-    if(TowerController.isPassingTower(tower, counter, player)){
-      newWindTurbine();
+    WindTurbineController.move(windTurbine.tower, windTurbine.blade);
+    if(WindTurbineController.isPassingTower(windTurbine.tower, counter, player)){      
+      windTurbine.tower.destroy();
+      windTurbine.blade.destroy();
+      windTurbine = WindTurbine(height: heightRandom());
+      add(windTurbine.tower);
+      add(windTurbine.blade);      
     }
-    if(EngineerController.isResettable(engineer)){
+    if(EngineerController.hasLost(engineer)){
       resetWorld();
     }
   }

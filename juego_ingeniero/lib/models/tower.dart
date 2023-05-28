@@ -6,16 +6,23 @@ import '../utils/globals.dart';
 
 class Tower extends Entity {
   Tower({required height}): _height = height;
-  final double _height;
   late double _x;
   late double _y;
   late double _width;
+  final double _height;
+  late SpriteComponent spriteComponent;
 
   @override
   void initializing(){
     _width = ScreenController.worldSize.x/20;
-    _x = ScreenController.worldSize.x + _width/2;
-    _y = 0.1 + (2*ScreenController.worldSize.y/3) - _height;
+    _x = getXStart();
+    _y = getY(_height);
+  }
+  double getXStart(){
+    return ScreenController.worldSize.x + _width/2;
+  }
+  double getY(double h){
+    return 0.1 + (2*ScreenController.worldSize.y/3) - h;
   }
   @override
   Body createBody() {
@@ -25,10 +32,10 @@ class Tower extends Entity {
       type: BodyType.kinematic,
     );
 
-    final shape = EdgeShape()..set( Vector2.zero(), Vector2(_width/1.7, 0));
+    final shape = EdgeShape()..set( Vector2.zero(), Vector2(0, 0));
     final fixtureDef = FixtureDef(shape)
       ..density = 10
-      ..restitution=.3;  
+      ..restitution=.3;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
   @override
@@ -36,12 +43,13 @@ class Tower extends Entity {
     await super.onLoad();
     renderBody = false;
     priority = 1;
-    final sprite = tower;
-    add(SpriteComponent(
+    final sprite = towerSprite;
+    spriteComponent = SpriteComponent(
       sprite: sprite,
       position: Vector2(_width/8,_height/2),
       size: Vector2(_width, _height),
       anchor: Anchor.center
-    ));
+    ); 
+    add(spriteComponent);
   }
 }

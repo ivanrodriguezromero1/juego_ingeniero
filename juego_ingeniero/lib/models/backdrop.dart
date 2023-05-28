@@ -37,7 +37,7 @@ class Backdrop extends Entity {
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
-    final sprite = backdrop;
+    final sprite = backdropSprite;
     add(SpriteComponent(
       sprite: sprite,
       size: Vector2(_width, _height),

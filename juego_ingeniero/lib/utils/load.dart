@@ -11,15 +11,15 @@ class Assets {
   }
   Future<void> loadAssets() async {
     if (!assetsLoaded) {    
-      ingenieros = [];
+      ingenierosSprites = [];
       for(String filename in ingenieroFilenames) {
-        ingenieros.add(await Sprite.load(filename));
+        ingenierosSprites.add(await Sprite.load(filename));
       }
-      floor = await Sprite.load(floorFilename);
-      backdrop = await Sprite.load(backdropFilename);
-      rock = await Sprite.load(rockFilename);
-      tower = await Sprite.load(towerFilename);
-      blade = await Sprite.load(bladeFilename);
+      floorSprite = await Sprite.load(floorFilename);
+      backdropSprite = await Sprite.load(backdropFilename);
+      rockSprite = await Sprite.load(rockFilename);
+      towerSprite = await Sprite.load(towerFilename);
+      bladeSprite = await Sprite.load(bladeFilename);
 
       assetsLoaded = true;
     }

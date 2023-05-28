@@ -6,7 +6,7 @@ class EngineerController {
   static late bool _canJump;
   static void setCanJump(Entity engineer){
     double positionY = engineer.body.position.y;
-    double positionYOnFloor = posY0 - ingenieros[0].image.height/1500/2;
+    double positionYOnFloor = posY0 - ingenierosSprites[0].image.height/1500/2;
     _canJump = positionY >= positionYOnFloor - 0.5;
   }
   static void jump(Entity engineer){
@@ -25,8 +25,8 @@ class EngineerController {
       }
     }
   }
-  static bool isResettable(Entity engineer){
-    return engineer.body.position.x <= -1*(ingenieros[0].image.width/1500/2);
+  static bool hasLost(Entity engineer){
+    return engineer.body.position.x <= -1*(ingenierosSprites[0].image.width/1500/2);
   }
 
 }

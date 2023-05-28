@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import '../controllers/engineer_controller.dart';
 import '../controllers/screen_controller.dart';
 import '../models/entity.dart';
 
@@ -14,8 +13,8 @@ class Engineer extends Entity {
 
   @override
   void initializing(){
-    _width = ingenieros[0].image.width/1500;
-    _height = ingenieros[0].image.height/1500;
+    _width = ingenierosSprites[0].image.width/1500;
+    _height = ingenierosSprites[0].image.height/1500;
     _x = 1;
     _y = ScreenController.worldSize.y/5;
   }
@@ -37,7 +36,7 @@ class Engineer extends Entity {
     await super.onLoad();
     renderBody = false;
     priority = 10;
-    final walkAnimation = SpriteAnimation.spriteList(ingenieros, stepTime: .08, loop: true);
+    final walkAnimation = SpriteAnimation.spriteList(ingenierosSprites, stepTime: .08, loop: true);
     add(SpriteAnimationComponent(
       animation: walkAnimation,
       size: Vector2(2*_width, 2*_height),
